@@ -1,0 +1,60 @@
+﻿@page "/Authorlist"
+@using pro_se491.Data.Entities
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject AuthorDesignServices _authorDesignServices
+
+<h3>AuthorlistComponent</h3>
+<MudTable Items="@Author" Hover="true" Loading="@_loading" LoadingProgressColor="Color.Info">
+  <ToolBarContent>
+      <MudSpacer/>
+      <MudButton Color="Color.Primary" 
+      Variant="Variant.Filled"
+      StartIcon="@Icons.Material.Filled.Add"
+      onclick="NavigationToAddAuthor">Add</MudButton>
+     
+  </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Id</MudTh> 
+        <MudTh>Name</MudTh>
+        <MudTh>Operations</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="id">@context.Id</MudTd>
+        <MudTd DataLabel="name">@context.Name</MudTd>
+       <MudTh>
+         
+           <MudButton Color="Color.Primary" 
+      Variant="Variant.Filled"
+      StartIcon="@Icons.Material.Filled.Edit"/>
+            <MudButton Color="Color.Error"
+                       Variant="Variant.Filled"
+                       StartIcon="@Icons.Material.Filled.Delete"
+                       OnClick="()=> DeleteAuthor(context)"/>
+       </MudTh>
+       
+       
+    </RowTemplate>
+</MudTable>
+@code {
+    private bool _loading = false;
+    public List<Author> Author { get; set; } = new List<Author>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        _loading = true;
+        await Task.Delay(2000);
+        Author = _authorDesignServices.GetAuthor();
+        _loading = false;
+    }
+    public void NavigationToAddAuthor()
+    {
+        NavigationManager.NavigateTo("/AuthorEdit");
+    }
+    public void DeleteAuthor (Author author)
+    {
+        Author.Remove(author);
+    }
+}
