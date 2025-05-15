@@ -1,0 +1,59 @@
+﻿@page "/Booklist"
+@using pro_se491.Data.Entities
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject BooksDesignServices _booksDesignServices 
+
+<h3>BooklistComponent</h3>
+<MudTable Items="@Book" Hover="true" Loading="@_loading" LoadingProgressColor="Color.Info">
+    <ToolBarContent>
+        <MudSpacer />
+        <MudButton Color="Color.Primary"
+                   Variant="Variant.Filled"
+                   StartIcon="@Icons.Material.Filled.Add"
+                   onclick="NavigationToAddAuthor">Add</MudButton>
+
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Title</MudTh>
+        
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="id">@context.Id</MudTd>
+        <MudTd DataLabel="title">@context.Title</MudTd>
+        <MudTh>
+
+            <MudButton Color="Color.Primary"
+                       Variant="Variant.Filled"
+                       StartIcon="@Icons.Material.Filled.Edit" />
+            <MudButton Color="Color.Error"
+                       Variant="Variant.Filled"
+                       StartIcon="@Icons.Material.Filled.Delete"
+                       OnClick="()=> DeleteBook(context)" />
+        </MudTh>
+
+
+    </RowTemplate>
+</MudTable>
+@code {
+    private bool _loading = false;
+    public List<Book> Book { get; set; } = new List<Book>();
+    protected override async Task OnInitializedAsync()
+    {
+
+        _loading = true;
+        await Task.Delay(2000);
+        Book = _booksDesignServices.GetBook();
+        _loading = false;
+    }
+         public void NavigationToAddAuthor()
+    {
+        NavigationManager.NavigateTo("/AuthorEdit");
+    }
+    public void DeleteBook(Book book )
+    {
+        Book.Remove(book);
+    }
+    
+}

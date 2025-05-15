@@ -5,7 +5,9 @@ using MudBlazor.Services;
 using pro_se491.Components;
 using pro_se491.Components.Account;
 using pro_se491.Components.Pages.Authorcomponents;
+using pro_se491.Components.Pages.Bookscomponents;
 using pro_se491.Data;
+using pro_se491.Data.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,7 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthorDesignServices>();
+builder.Services.AddScoped<BooksDesignServices>();
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultScheme = IdentityConstants.ApplicationScheme;

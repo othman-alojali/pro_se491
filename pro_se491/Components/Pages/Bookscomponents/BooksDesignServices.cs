@@ -1,8 +1,8 @@
 ﻿using pro_se491.Data.Entities;
 
-namespace pro_se491.Components.Pages.Bookcomponents
+namespace pro_se491.Components.Pages.Bookscomponents
 {
-    public class BookDesignServices
+    public class BooksDesignServices
     {
         public List<Book> GetBook()
         {

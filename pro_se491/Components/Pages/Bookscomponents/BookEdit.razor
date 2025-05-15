@@ -1,0 +1,27 @@
+﻿@page "/BookEdit"
+@page "/BookEdit/{Id:guid}"
+@using pro_se491.Data.Entities
+<h3>BookEdit</h3>
+
+<MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="save">Save</MudButton>
+@code {
+    [Parameter] public Guid Id { get; set; }
+    private Book Book { get; set; } = new Book();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1000);
+        Book = new Book
+        {
+            Id = Id,
+            Title = "sample Book"
+        };
+    }
+
+    private async Task save()
+    {
+        await Task.Delay(1000);
+        Console.WriteLine($"Saved Book: {Book.Title}");
+    }
+}
+
