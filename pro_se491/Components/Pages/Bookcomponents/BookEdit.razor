@@ -1,0 +1,52 @@
+﻿@page "/books/edit/{Id:int}"
+@using pro_se491.Data
+@using pro_se491.Data.Entities
+@inject ApplicationDbContext DbContext
+@inject NavigationManager Navigation
+
+<h3>Edit Book</h3>
+
+@if (book == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MudPaper Class="pa-6 mx-auto" MaxWidth="500px">
+        <MudForm ref="form" Model="book" OnValidSubmit="HandleValidSubmit">
+            <MudText Typo="Typo.h5" Class="mb-4">Edit Book</MudText>
+            <MudTextField @bind-Value="book.Title" Label="Title" For="@(() => book.Title)" Required="true" Class="mb-3" />
+            <MudTextField @bind-Value="book.Author" Label="Author" For="@(() => book.Author)" Required="true" Class="mb-3" />
+            <MudTextField @bind-Value="book.Description" Label="Description" For="@(() => book.Description)" Class="mb-3" />
+            <MudStack Row="true" Spacing="2">
+                <MudButton Color="Color.Primary" Variant="Variant.Filled"  OnClick="Submit">Save</MudButton>
+                <MudButton Color="Color.Secondary" Variant="Variant.Outlined" OnClick="GoBack">Cancel</MudButton>
+            </MudStack>
+        </MudForm>
+    </MudPaper>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Book book;
+
+    protected override void OnInitialized()
+    {
+        book = DbContext.Books.FirstOrDefault(b => b.Id == Id);
+    }
+
+    private void Submit()
+    {
+        DbContext.SaveChanges();
+        Navigation.NavigateTo("/books");
+
+    }
+    
+
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/books");
+    }
+}
